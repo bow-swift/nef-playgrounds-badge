@@ -1,5 +1,5 @@
 import { HTTPClient } from "./httpClient";
-import { GitHubRepository } from "../models/githubInfo";
+import { GitHubRepository } from "../models/repository";
 
 export class GitHubAPI {
     httpClient = new HTTPClient("api.github.com")
@@ -8,7 +8,15 @@ export class GitHubAPI {
         return this.tagURL(owner, repo).then(url => {
             const items = url.split(this.httpClient.host)
             const repoPath = items[items.length-1]
-            return this.repositoryTags(repoPath)
+            return this.repositorySourceInfo(repoPath)
+        });
+    }
+
+    public branches(owner: string, repo: string): Promise<[string]> {
+        return this.branchURL(owner, repo).then(url => {
+            const items = url.split(this.httpClient.host)
+            const repoPath = items[items.length-1]
+            return this.repositorySourceInfo(repoPath)
         });
     }
 
@@ -31,7 +39,7 @@ export class GitHubAPI {
         })
     }
 
-    private repositoryTags(repoPath: string): Promise<[string]> {
+    private repositorySourceInfo(repoPath: string): Promise<[string]> {
         return this.httpClient.request({
             path: repoPath,
             method: 'GET',
@@ -47,5 +55,12 @@ export class GitHubAPI {
             path: `/repos/${owner}/${repo}`,
             method: 'GET',
         }).then(response => response.data.get("tags_url"))
+    }
+
+    private branchURL(owner: string, repo: string): Promise<string> {
+        return this.httpClient.request({
+            path: `/repos/${owner}/${repo}`,
+            method: 'GET',
+        }).then(response => response.data.get("branches_url").replace("{/branch}", ""))
     }
 }

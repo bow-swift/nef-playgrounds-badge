@@ -1,7 +1,7 @@
 import { GitHubAPI } from "./app/api/github"
 import { NefDocument } from "./app/utils/document"
-import "./app/utils/htmlElement"
 import { NefPlaygrounds } from "./app/nef-playgrounds"
+import "./app/utils/htmlElement"
 
 function initPage() {
   const githubClient = new GitHubAPI()
@@ -16,10 +16,14 @@ initPage()
 // initialize
 function addEventListeners(component: NefPlaygrounds, dom: NefDocument) {
   const field = dom.repositoryField()
-  const tags = dom.tagsSelector()
+  const selector = dom.sourceSelector()
+  const tagOption = dom.tagOption()
+  const branchOption = dom.branchOption()
   const copyButton = dom.copyButton()
 
   field?.addEventListener("change", (event: Event) => component.onChangeRepository(field, event))
-  tags?.addEventListener("change", (event: Event) => component.onChangeTags(tags, event))
+  selector?.addEventListener("change", (event: Event) => component.onChangeSource(selector, event))
+  tagOption?.addEventListener("click", (event: Event) => component.onSelectOption(tagOption, event))
+  branchOption?.addEventListener("click", (event: Event) => component.onSelectOption(branchOption, event))
   copyButton?.addEventListener("click", (event: Event) => component.onClickCopy(copyButton, event))
 }

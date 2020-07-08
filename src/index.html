@@ -25,28 +25,33 @@
                 badge to your README file, to let to users try your project in them iPads.</p>
         </div>
 
-        <form class="needs-validation" novalidate="">
+        <form>
             <div class="row mb-4">
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <label for="repository">GitHub Repository</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">https://github.com/</span>
                         </div>
                         <input type="text" class="form-control" id="repository" placeholder="owner/repo" required="">
-                        <div class="invalid-feedback" style="width: 100%;">
-                            GitHub respository is required.
-                        </div>
                     </div>
                 </div>
 
-                <div class="col-md-2">
-                    <label for="tags">Tag</label>
-                    <select class="custom-select d-block w-100" id="tags" required="" disabled>
-                        <option value="">Choose...</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a tag.
+                <div class="col-md-4">
+                    <label for="source">Source</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend btn-group btn-group-toggle" data-toggle="buttons">
+                            <label id="tag-option" class="btn btn-info active">
+                                <input type="radio" name="options" autocomplete="off" checked> Tag
+                            </label>
+                            <label id="branch-option" class="btn btn-info">
+                                <input type="radio" name="options" autocomplete="off"> Branch
+                            </label>
+                        </div>
+
+                        <select class="custom-select d-block" id="select-source" required="" disabled>
+                            <option value="">Choose...</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -57,16 +62,16 @@
         <div class="row" id="repo-preview" style="display: none;">
             <div class="col-md-6">
                 <h3 id="name">Bow</h3>
-                <h5 class="text-muted" id="owner">bow-swift</h5>
-                <div class="row">
+                <div>
+                    <span class="text-light bg-dark text-center rounded-pill cloud-tag" id="owner"></span>
+                    <span class="text-light bg-dark text-center rounded-pill cloud-tag" id="tag-branch"></span>
+                </div>
+                <div class="row py-3">
                     <div class="col-md-2">
                         <img id="avatar" class="rounded-pill"
                             src="https://avatars3.githubusercontent.com/u/44965417?v=4" alt="" width="64" height="64">
-                        <p class="text-light bg-dark text-center rounded-pill mycontent-bottom" id="selected-tag"
-                            style="width: 64px;">0.8.0</p>
                     </div>
-
-                    <div class="col-md-10 my-auto">
+                    <div class="col-md-7 my-auto mycontent-right">
                         <p class="text-secondary" id="repo-description"> Functional programming in Swift.</p>
                     </div>
                 </div>
@@ -77,7 +82,7 @@
                     style="height:20px">
                 <div class="form-group purple-border h-100 mycontent-bottom textarea-container">
                     <label for="badge-code">Code</label>
-                    <textarea class="form-control rounded-lg" id="badge-code" rows="10"
+                    <textarea class="form-control rounded-lg" id="badge-code" rows="9"
                         style="font-size: 10pt"></textarea>
                     <button id="copy" type="button" class="btn btn-light btn-outline-info btn-sm">
                         <span class="fa fa-copy"></span> <span id="copy-value">Copy</span>

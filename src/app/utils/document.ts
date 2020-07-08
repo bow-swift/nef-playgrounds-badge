@@ -9,8 +9,16 @@ export class NefDocument {
         return document.getElementById("repository") as HTMLInputElement
     }
 
-    tagsSelector(): (HTMLOptionElement | null) {
-        return document.getElementById("tags") as HTMLOptionElement
+    sourceSelector(): (HTMLOptionElement | null) {
+        return document.getElementById("select-source") as HTMLOptionElement
+    }
+
+    tagOption(): (HTMLLabelElement | null) {
+        return document.getElementById("tag-option") as HTMLLabelElement
+    }
+
+    branchOption(): (HTMLLabelElement | null) {
+        return document.getElementById("branch-option") as HTMLLabelElement
     }
 
     preview(): (HTMLDivElement | null) {
@@ -23,6 +31,11 @@ export class NefDocument {
 
     copyButton(): (HTMLButtonElement | null) {
         return document.getElementById("copy") as HTMLButtonElement
+    }
+
+    isTagSelected(): boolean {
+        const isActive = this.tagOption()?.className.includes("active")
+        return isActive == null ? false : isActive
     }
 
     setName(value: string) {
@@ -41,8 +54,8 @@ export class NefDocument {
         (document.getElementById("repo-description") as HTMLParagraphElement).textContent = value
     }
 
-    setVersion(value: string) {
-        (document.getElementById("selected-tag") as HTMLParagraphElement).textContent = value
+    setTagBranchName(value: string) {
+        (document.getElementById("tag-branch") as HTMLElement).textContent = value
     }
 
     setTextArea(value: string) {

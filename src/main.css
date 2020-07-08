@@ -11,6 +11,19 @@ body {
   margin-top: 10px;
 }
 
+.mycontent-right {
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.cloud-tag {
+  min-width: 64px;
+  width: max-content;
+  padding: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .textarea-container {
   position: relative;
 }
