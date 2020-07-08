@@ -1,0 +1,12 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.selector-for-some-widget {
+  box-sizing: content-box;
+}
+
+.mycontent-bottom {
+  margin-top: 10px;
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>nef Playgrounds - badge generator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+
+<body class="bg-light" data-gr-c-s-loaded="true">
+    <div class="container">
+
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto"
+                src="https://github.com/bow-swift/bow-art/blob/master/assets/nef-brand-xcode.png?raw=true" alt=""
+                width="140" height="140">
+            <h2>nef Playgrounds [badge]</h2>
+            <p class="lead">Fill the next form to generate a nef Playgrounds badge for your repository. You can add this
+                badge to your README file, to let to users try your project in them iPads.</p>
+        </div>
+
+        <form class="needs-validation" novalidate="">
+            <div class="row mb-4">
+                <div class="col-md-10">
+                    <label for="repository">GitHub Repository</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">https://github.com/</span>
+                        </div>
+                        <input type="text" class="form-control" id="repository" placeholder="owner/repo"
+                            required="">
+                        <div class="invalid-feedback" style="width: 100%;">
+                            GitHub respository is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="tags">Tag</label>
+                    <select class="custom-select d-block w-100" id="tags" required="" disabled>
+                        <option value="">Choose...</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a tag.
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <hr class="mb-4">
+
+        <div class="row" id="repo-preview" style="display: none;">
+            <div class="col-md-6">
+                <h3 id="name">Bow</h3>
+                <h5 class="text-muted" id="owner">bow-swift</h5>
+                <div class="row">
+                    <div class="col-md-2">
+                        <img id="avatar" class="rounded-pill"
+                            src="https://avatars3.githubusercontent.com/u/44965417?v=4"
+                            alt="" width="64" height="64">
+                        <p class="text-light bg-dark text-center rounded-pill mycontent-bottom" id="selected-tag" style="width: 64px;">0.8.0</p>
+                    </div>
+
+                    <div class="col-md-10 my-auto">
+                        <p class="text-secondary" id="repo-description"> Functional programming in Swift.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <img src="https://raw.githubusercontent.com/bow-swift/bow-art/master/badges/nef-playgrounds-badge.svg"
+                    style="height:20px">
+                <div class="form-group purple-border h-100 mycontent-bottom">
+                    <label for="badge-code">Code</label>
+                    <textarea class="form-control rounded-lg" id="badge-code" rows="9" style="font-size: 10pt"></textarea>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    <script src="bundle.js"></script>
+</body>
+
+</html>
