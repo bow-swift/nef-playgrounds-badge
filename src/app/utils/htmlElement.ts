@@ -6,6 +6,10 @@ declare global {
       show(): void
       removeChildren(): void
     }
+
+    interface HTMLInputElement {
+      addEnterKeyListener(task: (element: HTMLInputElement, event: Event) => void): void
+    }
   }
   
   HTMLElement.prototype.disable = function(): void {
@@ -28,6 +32,15 @@ declare global {
     while(this.lastChild) {
       this.removeChild(this.lastChild)
     }
+  }
+
+  HTMLInputElement.prototype.addEnterKeyListener = function(task: (element: HTMLInputElement, event: Event) => void): void {
+    this.addEventListener("keydown", (event: KeyboardEvent) => {
+      if (event.keyCode == 13) {
+        event.preventDefault()
+        task(this, event)
+      }
+    })
   }
 
   export {}

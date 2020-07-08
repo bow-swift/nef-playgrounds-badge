@@ -1,6 +1,6 @@
 import { GitHubAPI } from "./app/api/github"
 import { NefDocument } from "./app/utils/document"
-import { NefPlaygrounds } from "./app/nef-playgrounds"
+import { NefPlaygrounds } from "./app/badge-generator"
 import "./app/utils/htmlElement"
 
 function initPage() {
@@ -21,6 +21,7 @@ function addEventListeners(component: NefPlaygrounds, dom: NefDocument) {
   const branchOption = dom.branchOption()
   const copyButton = dom.copyButton()
 
+  field?.addEnterKeyListener((element, event) => component.onChangeRepository(field, event))
   field?.addEventListener("change", (event: Event) => component.onChangeRepository(field, event))
   selector?.addEventListener("change", (event: Event) => component.onChangeSource(selector, event))
   tagOption?.addEventListener("click", (event: Event) => component.onSelectOption(tagOption, event))
