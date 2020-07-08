@@ -1,0 +1,8 @@
+## User files
+**/.DS_Store
+
+## Deployment
+/dist
+
+## Node
+/modules_node
