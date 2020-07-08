@@ -1,5 +1,5 @@
 import { HTTPClient } from "./httpClient";
-import { Repository } from "../models/githubInfo";
+import { GitHubRepository } from "../models/githubInfo";
 
 export class GitHubAPI {
     httpClient = new HTTPClient("api.github.com")
@@ -12,7 +12,7 @@ export class GitHubAPI {
         });
     }
 
-    public repositoryInfo(owner: string, repo: string): Promise<Repository> {
+    public repositoryInfo(owner: string, repo: string): Promise<GitHubRepository> {
         return this.httpClient.request({
             path: `/repos/${owner}/${repo}`,
             method: 'GET',
@@ -22,7 +22,7 @@ export class GitHubAPI {
             const avatar = ownerSection.avatar_url
             if (login == null || avatar == null) { throw new Error(`invalid repository response: ${response}`) }
 
-            return new Repository(
+            return new GitHubRepository(
                 response.data.get("name"), 
                 login, 
                 new URL(avatar), 

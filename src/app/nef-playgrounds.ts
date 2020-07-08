@@ -1,8 +1,8 @@
 import { NefDocument } from "./utils/document"
 import { GitHubAPI } from "./api/github"
 import { GitHubInput } from "./models/githubInput"
+import { GitHubRepository } from "./models/githubInfo"
 import "./utils/htmlElement"
-import { Repository } from "./models/githubInfo"
 
 export class NefPlaygrounds {
     dom: NefDocument
@@ -39,6 +39,7 @@ export class NefPlaygrounds {
         }
 
         this.client.repositoryInfo(info.owner, info.repo).then(repository => {
+            this.resetCopyButton()
             this.dom.preview()?.show()
             this.updatePreview(repository, tag, info.owner, info.repo)
         }).catch(reason => {
@@ -47,11 +48,26 @@ export class NefPlaygrounds {
         })
     }
 
+    public onClickCopy(element: HTMLButtonElement, event: Event) {
+        this.dom.textArea()?.select()
+        this.dom.copySelection()
+        this.dom.textArea()?.setSelectionRange(0, 0)
+        this.setCopiedButton()
+    }
+
     // helpers
     private inputInfo(element: HTMLInputElement): (GitHubInput | null) {
         const elements = element.value.replace(".git", "").split("/")
         if (elements.length != 2) { return null; }
         return new GitHubInput(elements[0], elements[1])
+    }
+
+    private resetCopyButton() {
+        this.dom.setCopyValue("Copy")
+    }
+
+    private setCopiedButton() {
+        this.dom.setCopyValue("Copied!")
     }
 
     private resetTags() {
@@ -76,19 +92,25 @@ export class NefPlaygrounds {
         })
     }
 
-    private updatePreview(info: Repository, tag: string, owner: string, repo: string) {
-        const deeplink = this.deeplink(info, tag, owner, repo)
+    private updatePreview(info: GitHubRepository, tag: string, owner: string, repo: string) {
+        const deeplink = this.deeplinkTag(info, tag, owner, repo)
         this.dom.setName(info.name)
         this.dom.setAvatar(info.avatar)
         this.dom.setDescription(info.description)
         this.dom.setVersion(tag)
         this.dom.setOwner(info.owner)
-        this.dom.setBadge(`<a href="${deeplink}">
-<img src="https://raw.githubusercontent.com/bow-swift/bow-art/master/badges/nef-playgrounds-badge.svg" alt="${info.name} Playground" style="height:20px">
-</a>`)
+        this.dom.setTextArea(`<a href="${deeplink}">${this.badge(info.name)}</a>`)
     }
 
-    private deeplink(info: Repository, tag: string, owner: string, repo: string): string {
-        return `https://nef.bow-swift.io/recipe?name=${info.name}&description=${info.description}&url=https://github.com/${owner}/${repo}&owner=${info.owner}&avatar=${info.avatar.toString()}&tag=${tag}`
+    private badge(title: string): string {
+        return `<img src="https://raw.githubusercontent.com/bow-swift/bow-art/master/badges/nef-playgrounds-badge.svg" alt="${title} Playground" style="height:20px">`
+    }
+
+    private deeplinkTag(info: GitHubRepository, tag: string, owner: string, repo: string): string {
+        return `https://nef.bow-swift.io/recipe?name=${escape(info.name)}&description=${escape(info.description)}&url=https://github.com/${owner}/${repo}&owner=${escape(info.owner)}&avatar=${info.avatar.toString()}&tag=${tag}`
+    }
+
+    private deeplinkBranch(info: GitHubRepository, branch: string, owner: string, repo: string): string {
+        return `https://nef.bow-swift.io/recipe?name=${escape(info.name)}&description=${escape(info.description)}&url=https://github.com/${owner}/${repo}&owner=${escape(info.owner)}&avatar=${info.avatar.toString()}&branch=${branch}`
     }
 }

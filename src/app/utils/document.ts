@@ -17,6 +17,14 @@ export class NefDocument {
         return document.getElementById("repo-preview") as HTMLDivElement
     }
 
+    textArea(): (HTMLTextAreaElement | null) {
+        return document.getElementById("badge-code") as HTMLTextAreaElement
+    }
+
+    copyButton(): (HTMLButtonElement | null) {
+        return document.getElementById("copy") as HTMLButtonElement
+    }
+
     setName(value: string) {
         (document.getElementById("name") as HTMLHeadingElement).textContent = value
     }
@@ -37,7 +45,15 @@ export class NefDocument {
         (document.getElementById("selected-tag") as HTMLParagraphElement).textContent = value
     }
 
-    setBadge(value: string) {
+    setTextArea(value: string) {
         (document.getElementById("badge-code") as HTMLTextAreaElement).textContent = value
+    }
+
+    setCopyValue(value: string) {
+        (document.getElementById("copy-value") as HTMLSpanElement).textContent = value
+    }
+
+    copySelection() {
+        document.execCommand('copy')
     }
 }

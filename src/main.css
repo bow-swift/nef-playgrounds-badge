@@ -10,3 +10,12 @@ body {
 .mycontent-bottom {
   margin-top: 10px;
 }
+
+.textarea-container {
+  position: relative;
+}
+.textarea-container button {
+  position: absolute;
+  top: 40px;
+  right: 8px;
+}

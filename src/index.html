@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 
@@ -31,8 +33,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">https://github.com/</span>
                         </div>
-                        <input type="text" class="form-control" id="repository" placeholder="owner/repo"
-                            required="">
+                        <input type="text" class="form-control" id="repository" placeholder="owner/repo" required="">
                         <div class="invalid-feedback" style="width: 100%;">
                             GitHub respository is required.
                         </div>
@@ -60,9 +61,9 @@
                 <div class="row">
                     <div class="col-md-2">
                         <img id="avatar" class="rounded-pill"
-                            src="https://avatars3.githubusercontent.com/u/44965417?v=4"
-                            alt="" width="64" height="64">
-                        <p class="text-light bg-dark text-center rounded-pill mycontent-bottom" id="selected-tag" style="width: 64px;">0.8.0</p>
+                            src="https://avatars3.githubusercontent.com/u/44965417?v=4" alt="" width="64" height="64">
+                        <p class="text-light bg-dark text-center rounded-pill mycontent-bottom" id="selected-tag"
+                            style="width: 64px;">0.8.0</p>
                     </div>
 
                     <div class="col-md-10 my-auto">
@@ -74,9 +75,13 @@
             <div class="col-md-6">
                 <img src="https://raw.githubusercontent.com/bow-swift/bow-art/master/badges/nef-playgrounds-badge.svg"
                     style="height:20px">
-                <div class="form-group purple-border h-100 mycontent-bottom">
+                <div class="form-group purple-border h-100 mycontent-bottom textarea-container">
                     <label for="badge-code">Code</label>
-                    <textarea class="form-control rounded-lg" id="badge-code" rows="9" style="font-size: 10pt"></textarea>
+                    <textarea class="form-control rounded-lg" id="badge-code" rows="10"
+                        style="font-size: 10pt"></textarea>
+                    <button id="copy" type="button" class="btn btn-light btn-outline-info btn-sm">
+                        <span class="fa fa-copy"></span> <span id="copy-value">Copy</span>
+                    </button>
                 </div>
             </div>
         </div>

@@ -17,7 +17,9 @@ initPage()
 function addEventListeners(component: NefPlaygrounds, dom: NefDocument) {
   const field = dom.repositoryField()
   const tags = dom.tagsSelector()
+  const copyButton = dom.copyButton()
 
   field?.addEventListener("change", (event: Event) => component.onChangeRepository(field, event))
   tags?.addEventListener("change", (event: Event) => component.onChangeTags(tags, event))
+  copyButton?.addEventListener("click", (event: Event) => component.onClickCopy(copyButton, event))
 }

@@ -1,4 +1,4 @@
-export class Repository {
+export class GitHubRepository {
     name: string
     owner: string
     avatar: URL
