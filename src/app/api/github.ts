@@ -30,12 +30,11 @@ export class GitHubAPI {
             const avatar = ownerSection.avatar_url
             if (login == null || avatar == null) { throw new Error(`invalid repository response: ${response}`) }
 
-            return new GitHubRepository(
-                response.data.get("name"), 
-                login, 
-                new URL(avatar), 
-                response.data.get("description") 
-            )
+            const name = response.data.get("name")
+            const avatarURL = new URL(avatar)
+            const description = response.data.get("description").trim()
+
+            return new GitHubRepository(name, login, avatarURL, description)
         })
     }
 

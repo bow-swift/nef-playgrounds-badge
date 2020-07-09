@@ -2,8 +2,8 @@ import { NefDocument } from "./utils/document"
 import { GitHubAPI } from "./api/github"
 import { GitHubInput } from "./models/githubInput"
 import { GitHubRepository, GitHubRepositorySource } from "./models/repository"
+import { removeNonASCII } from "./utils/string-format"
 import "./utils/htmlElement"
-import { threadId } from "worker_threads"
 
 export class NefPlaygrounds {
     dom: NefDocument
@@ -126,8 +126,13 @@ export class NefPlaygrounds {
     }
 
     private deeplink(info: GitHubRepository, option: string, owner: string, repo: string): string {
-        const deeplink = `https://nef.bow-swift.io/recipe?name=${escape(info.name)}&description=${escape(info.description)}&url=https://github.com/${owner}/${repo}&owner=${escape(info.owner)}&avatar=${info.avatar.toString()}`
+        const avatarURL = info.avatar.toString()
+        const nameEscaped = escape(info.name)
+        const ownerEscaped = escape(info.owner)
+        const descriptionEscaped = escape(removeNonASCII(info.description))
         const source = this.dom.isTagSelected() ? "tag" : "branch"
+
+        const deeplink = `https://nef.bow-swift.io/recipe?name=${nameEscaped}&description=${descriptionEscaped}&url=https://github.com/${owner}/${repo}&owner=${ownerEscaped}&avatar=${avatarURL}`
         return `${deeplink}&${source}=${option}`
     }
 
