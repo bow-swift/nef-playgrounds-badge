@@ -17,26 +17,27 @@ export class NefPlaygrounds {
     }
 
     // handlers
-    public onChangeRepository(element: HTMLInputElement, event: Event) {
+    public onRepositoryChanged(element: HTMLInputElement, event: Event) {
         this.resetOptions()
         this.dom.sourceSelector()?.disable()
         this.dom.preview()?.hide()
         const input = this.inputInfo(element)
         if (input == null) { return; }
 
-        this.client.tags(input.owner, input.repo).then(tags => {
-            this.client.branches(input.owner, input.repo).then( branches => {
-                return new GitHubRepositorySource(tags, branches)
-            }).then(source => {
-                this.updateOptions(source)
-                if (source.tags.length > 0 || source.branches.length > 0) {
-                    this.dom.sourceSelector()?.enable() 
-                }
-            })
+        Promise.all([
+            this.client.tags(input.owner, input.repo),
+            this.client.branches(input.owner, input.repo)
+        ]).then((value: [[string], [string]]) => {
+            const tags = value[0]
+            const branches = value[1]
+            this.updateOptions(new GitHubRepositorySource(tags, branches))
+            if (tags.length > 0 || branches.length > 0) {
+                this.dom.sourceSelector()?.enable()
+            }
         })
     }
 
-    public onChangeSource(element: HTMLOptionElement, event: Event) {
+    public onSourceChanged(element: HTMLOptionElement, event: Event) {
         const repositoryField = this.dom.repositoryField()
         const option = element.value
         const info = (repositoryField == null) ? null : this.inputInfo(repositoryField)
@@ -56,7 +57,7 @@ export class NefPlaygrounds {
         })
     }
 
-    public onSelectOption(element: HTMLElement, event: Event) {
+    public onOptionClicked(element: HTMLElement, event: Event) {
         const source = this.source
         if (source == null) return;
 
@@ -65,7 +66,7 @@ export class NefPlaygrounds {
         this.updateOptions(source)
     }
 
-    public onClickCopy(element: HTMLButtonElement, event: Event) {
+    public onCopyClicked(element: HTMLButtonElement, event: Event) {
         this.dom.textArea()?.select()
         this.dom.copySelection()
         this.dom.textArea()?.setSelectionRange(0, 0)
@@ -116,7 +117,7 @@ export class NefPlaygrounds {
 
     private updatePreview(info: GitHubRepository, option: string, owner: string, repo: string) {
         const deeplink = this.deeplink(info, option, owner, repo)
-        
+
         this.dom.setTagBranchName(option)
         this.dom.setName(info.name)
         this.dom.setAvatar(info.avatar)
