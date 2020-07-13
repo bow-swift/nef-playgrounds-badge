@@ -11,13 +11,3 @@ export class GitHubRepository {
         this.description = description
     }
 }
-
-export class GitHubRepositorySource {
-    tags: [string]
-    branches: [string]
-
-    constructor(tags: [string], branches: [string]) {
-        this.tags = tags
-        this.branches = branches
-    }
-}

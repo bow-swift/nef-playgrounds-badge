@@ -16,15 +16,15 @@ initPage()
 // initialize
 function addEventListeners(component: NefPlaygrounds, dom: NefDocument) {
   const field = dom.repositoryField()
-  const selector = dom.sourceSelector()
+  const selector = dom.optionSelector()
   const tagOption = dom.tagOption()
   const branchOption = dom.branchOption()
   const copyButton = dom.copyButton()
 
   field?.addEnterKeyListener((element, event) => component.onRepositoryChanged(field, event))
   field?.addEventListener("change", (event: Event) => component.onRepositoryChanged(field, event))
-  selector?.addEventListener("change", (event: Event) => component.onSourceChanged(selector, event))
-  tagOption?.addEventListener("click", (event: Event) => component.onOptionClicked(tagOption, event))
-  branchOption?.addEventListener("click", (event: Event) => component.onOptionClicked(branchOption, event))
+  selector?.addEventListener("change", (event: Event) => component.onOptionSelected(selector, event))
+  tagOption?.addEventListener("click", (event: Event) => component.onSourceChanged(tagOption, event))
+  branchOption?.addEventListener("click", (event: Event) => component.onSourceChanged(branchOption, event))
   copyButton?.addEventListener("click", (event: Event) => component.onCopyClicked(copyButton, event))
 }

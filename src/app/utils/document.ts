@@ -9,8 +9,8 @@ export class NefDocument {
         return document.getElementById("repository") as HTMLInputElement
     }
 
-    sourceSelector(): (HTMLOptionElement | null) {
-        return document.getElementById("select-source") as HTMLOptionElement
+    optionSelector(): (HTMLOptionElement | null) {
+        return document.getElementById("select-option") as HTMLOptionElement
     }
 
     tagOption(): (HTMLLabelElement | null) {

@@ -4,15 +4,19 @@ import { GitHubRepository } from "../models/repository";
 export class GitHubAPI {
     httpClient = new HTTPClient("api.github.com")
 
-    public tags(owner: string, repo: string): Promise<[string]> {
-        return this.focusName(`/repos/${owner}/${repo}/tags`)
+    public async tags(owner: string, repo: string): Promise<Tag[]> {
+        const values: [string] = await this.focusName(`/repos/${owner}/${repo}/tags`)
+        const tags = values.map((tag: string): Tag => { return {_type: "tag", value: tag} })
+        return tags
+    }
+    
+    public async branches(owner: string, repo: string): Promise<Branch[]> {
+        const values: [string] = await this.focusName(`/repos/${owner}/${repo}/branches`)
+        const branches = values.map((branch: string): Branch => { return {_type: "branch", value: branch} })
+        return branches
     }
 
-    public branches(owner: string, repo: string): Promise<[string]> {
-        return this.focusName(`/repos/${owner}/${repo}/branches`)
-    }
-
-    public repositoryInfo(owner: string, repo: string): Promise<GitHubRepository> {
+    public async repositoryInfo(owner: string, repo: string): Promise<GitHubRepository> {
         return this.httpClient.request({
             path: `/repos/${owner}/${repo}`,
             method: 'GET',
@@ -29,13 +33,13 @@ export class GitHubAPI {
         })
     }
 
-    private focusName(repoPath: string): Promise<[string]> {
+    private async focusName(path: string): Promise<[string]> {
         return this.httpClient.request({
-            path: repoPath,
+            path: path,
             method: 'GET',
         }).then(response => {
             const values = response.data.values()
-            const res = Array.from(values).map((it) => it.name)
+            const res = Array.from(values).map(it => it.name)
             return res as [string]
         })
     }

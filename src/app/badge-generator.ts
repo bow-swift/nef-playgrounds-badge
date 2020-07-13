@@ -1,14 +1,14 @@
 import { NefDocument } from "./utils/document"
 import { GitHubAPI } from "./api/github"
 import { GitHubInput } from "./models/githubInput"
-import { GitHubRepository, GitHubRepositorySource } from "./models/repository"
+import { GitHubRepository } from "./models/repository"
 import { removeNonASCII } from "./utils/string-format"
 import "./utils/htmlElement"
 
 export class NefPlaygrounds {
     dom: NefDocument
     client: GitHubAPI
-    source: (GitHubRepositorySource | null)
+    source: (Source | null)
 
     constructor(dom: NefDocument, client: GitHubAPI) {
         this.dom = dom
@@ -19,7 +19,7 @@ export class NefPlaygrounds {
     // handlers
     public onRepositoryChanged(element: HTMLInputElement, event: Event) {
         this.resetOptions()
-        this.dom.sourceSelector()?.disable()
+        this.dom.optionSelector()?.disable()
         this.dom.preview()?.hide()
         const input = this.inputInfo(element)
         if (input == null) { return; }
@@ -27,22 +27,36 @@ export class NefPlaygrounds {
         Promise.all([
             this.client.tags(input.owner, input.repo),
             this.client.branches(input.owner, input.repo)
-        ]).then((value: [[string], [string]]) => {
-            const tags = value[0]
-            const branches = value[1]
-            this.updateOptions(new GitHubRepositorySource(tags, branches))
+        ])
+        .then(reqs => {
+            const tags = reqs[0]
+            const branches = reqs[1]
+            this.updateOptions({tags: tags, branches: branches})
+
             if (tags.length > 0 || branches.length > 0) {
-                this.dom.sourceSelector()?.enable()
+                this.dom.optionSelector()?.enable()
             }
         })
     }
 
-    public onSourceChanged(element: HTMLOptionElement, event: Event) {
-        const repositoryField = this.dom.repositoryField()
-        const option = element.value
-        const info = (repositoryField == null) ? null : this.inputInfo(repositoryField)
+    public onSourceChanged(element: HTMLElement, event: Event) {
         const source = this.source
-        if (info == null || option == "" || source == null) {
+        if (source == null) return;
+
+        this.dom.preview()?.hide()
+        this.resetOptions()
+        this.updateOptions(source)
+    }
+
+    public onOptionSelected(element: HTMLOptionElement, event: Event) {
+        const source = this.source
+        const repositoryField = this.dom.repositoryField()
+        const info = (repositoryField == null) ? null : this.inputInfo(repositoryField)
+        const selectedTag = source?.tags.filter(it => it.value == element.value)[0]
+        const selectedBranch = source?.branches.filter(it => it.value == element.value)[0]
+        const option = selectedTag ? selectedTag : selectedBranch
+        
+        if (source == null || info == null || option == undefined) {
             this.dom.preview()?.hide()
             return;
         }
@@ -55,15 +69,6 @@ export class NefPlaygrounds {
             this.dom.preview()?.hide()
             console.log(reason)
         })
-    }
-
-    public onOptionClicked(element: HTMLElement, event: Event) {
-        const source = this.source
-        if (source == null) return;
-
-        this.dom.preview()?.hide()
-        this.resetOptions()
-        this.updateOptions(source)
     }
 
     public onCopyClicked(element: HTMLButtonElement, event: Event) {
@@ -91,7 +96,7 @@ export class NefPlaygrounds {
     private resetOptions() {
         this.source = null
 
-        const selector = this.dom.sourceSelector()
+        const selector = this.dom.optionSelector()
         selector?.removeChildren()
 
         const option = document.createElement("option")
@@ -100,14 +105,14 @@ export class NefPlaygrounds {
         selector?.append(option)
     }
 
-    private updateOptions(source: GitHubRepositorySource) {
+    private updateOptions(source: Source) {
         this.source = source
         if (source.tags.length < 0 && source.branches.length < 0) return;
 
-        const selector = this.dom.sourceSelector()
-        const options = this.dom.isTagSelected() ? source.tags : source.branches
+        const selector = this.dom.optionSelector()
+        const options = this.dom.isTagSelected() ? source.tags.map(it => it.value) : source.branches.map(it => it.value)
 
-        options.forEach(option => {
+        options.forEach((option: string) => {
             const element = document.createElement("option")
             element.value = option
             element.innerText = option
@@ -115,10 +120,10 @@ export class NefPlaygrounds {
         })
     }
 
-    private updatePreview(info: GitHubRepository, option: string, owner: string, repo: string) {
+    private updatePreview(info: GitHubRepository, option: Tag | Branch, owner: string, repo: string) {
         const deeplink = this.deeplink(info, option, owner, repo)
 
-        this.dom.setTagBranchName(option)
+        this.dom.setTagBranchName(option.value)
         this.dom.setName(info.name)
         this.dom.setAvatar(info.avatar)
         this.dom.setDescription(info.description)
@@ -126,15 +131,15 @@ export class NefPlaygrounds {
         this.dom.setTextArea(`<a href="${deeplink}">${this.badge(info.name)}</a>`)
     }
 
-    private deeplink(info: GitHubRepository, option: string, owner: string, repo: string): string {
+    private deeplink(info: GitHubRepository, option: Tag | Branch, owner: string, repo: string): string {
         const avatarURL = info.avatar.toString()
         const nameEscaped = escape(info.name)
         const ownerEscaped = escape(info.owner)
         const descriptionEscaped = escape(removeNonASCII(info.description))
-        const source = this.dom.isTagSelected() ? "tag" : "branch"
+        const source = option._type == 'tag' ? "tag" : "branch"
 
         const deeplink = `https://nef.bow-swift.io/recipe?name=${nameEscaped}&description=${descriptionEscaped}&url=https://github.com/${owner}/${repo}&owner=${ownerEscaped}&avatar=${avatarURL}`
-        return `${deeplink}&${source}=${option}`
+        return `${deeplink}&${source}=${option.value}`
     }
 
     private badge(title: string): string {
