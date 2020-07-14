@@ -1,13 +1,14 @@
-export class GitHubRepository {
+export interface GitHubRepo {
     name: string
-    owner: string
-    avatar: URL
     description: string
+    languaje: string
+    stargazers_count: number
+    forks: number
+    owner: GithubRepoOwner
+}
 
-    constructor(name: string, owner: string, avatar: URL, description: string) {
-        this.name = name
-        this.owner = owner
-        this.avatar = avatar
-        this.description = description
-    }
+export interface GithubRepoOwner {
+    login: string
+    avatar_url: string
+    type: string
 }

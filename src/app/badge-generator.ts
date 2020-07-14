@@ -1,7 +1,7 @@
 import { NefDocument } from "./utils/document"
 import { GitHubAPI } from "./api/github"
 import { GitHubInput } from "./models/githubInput"
-import { GitHubRepository } from "./models/repository"
+import { GitHubRepo } from "./models/repository"
 import { removeNonASCII } from "./utils/string-format"
 import "./utils/htmlElement"
 
@@ -120,22 +120,22 @@ export class NefPlaygrounds {
         })
     }
 
-    private updatePreview(info: GitHubRepository, option: Tag | Branch, owner: string, repo: string) {
+    private updatePreview(info: GitHubRepo, option: Tag | Branch, owner: string, repo: string) {
         const deeplink = this.deeplink(info, option, owner, repo)
 
         this.dom.setTagBranchName(option.value)
         this.dom.setName(info.name)
-        this.dom.setAvatar(info.avatar)
+        this.dom.setAvatar(new URL(info.owner.avatar_url))
         this.dom.setDescription(info.description)
-        this.dom.setOwner(info.owner)
+        this.dom.setOwner(info.owner.login)
         this.dom.setTextArea(`<a href="${deeplink}">${this.badge(info.name)}</a>`)
     }
 
-    private deeplink(info: GitHubRepository, option: Tag | Branch, owner: string, repo: string): string {
-        const avatarURL = info.avatar.toString()
+    private deeplink(info: GitHubRepo, option: Tag | Branch, owner: string, repo: string): string {
+        const avatarURL = info.owner.avatar_url
         const nameEscaped = escape(info.name)
-        const ownerEscaped = escape(info.owner)
-        const descriptionEscaped = escape(removeNonASCII(info.description))
+        const ownerEscaped = escape(info.owner.login)
+        const descriptionEscaped = escape(removeNonASCII(info.description).trim())
         const source = option._type == 'tag' ? "tag" : "branch"
 
         const deeplink = `https://nef.bow-swift.io/recipe?name=${nameEscaped}&description=${descriptionEscaped}&url=https://github.com/${owner}/${repo}&owner=${ownerEscaped}&avatar=${avatarURL}`
