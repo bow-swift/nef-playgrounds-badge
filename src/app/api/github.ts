@@ -1,19 +1,18 @@
 import { HTTPClient } from "./httpClient";
 import { GitHubRepo } from "../models/repository";
+import { Tag, Branch } from "./Requirements";
 
 export class GitHubAPI {
     httpClient = new HTTPClient("api.github.com")
 
     public async tags(owner: string, repo: string): Promise<Tag[]> {
         const values = await this.focusName(`/repos/${owner}/${repo}/tags`)
-        const tags = values.map((tag: string): Tag => { return {_type: "tag", value: tag} })
-        return tags
+        return values.map(it => new Tag(it))
     }
     
     public async branches(owner: string, repo: string): Promise<Branch[]> {
         const values = await this.focusName(`/repos/${owner}/${repo}/branches`)
-        const branches = values.map((branch: string): Branch => { return {_type: "branch", value: branch} })
-        return branches
+        return values.map(it => new Branch(it))
     }
 
     public async repositoryInfo(owner: string, repo: string): Promise<GitHubRepo> {

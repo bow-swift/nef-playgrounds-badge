@@ -3,6 +3,7 @@ import { GitHubAPI } from "./api/github"
 import { GitHubInput } from "./models/githubInput"
 import { GitHubRepo } from "./models/repository"
 import { removeNonASCII } from "./utils/string-format"
+import { Source, Tag, Branch } from "./api/Requirements"
 import "./utils/htmlElement"
 
 export class NefPlaygrounds {
@@ -145,7 +146,7 @@ export class NefPlaygrounds {
         const nameEscaped = escape(info.name)
         const ownerEscaped = escape(info.owner.login)
         const descriptionEscaped = escape(removeNonASCII(info.description).trim())
-        const source = option._type == 'tag' ? "tag" : "branch"
+        const source = option.type == "tag" ? "tag" : "branch"
 
         const deeplink = `https://nef.bow-swift.io/recipe?name=${nameEscaped}&description=${descriptionEscaped}&url=https://github.com/${owner}/${repo}&owner=${ownerEscaped}&avatar=${avatarURL}`
         return `${deeplink}&${source}=${option.value}`
