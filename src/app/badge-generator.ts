@@ -20,9 +20,12 @@ export class NefPlaygrounds {
     public onRepositoryChanged(element: HTMLInputElement, event: Event) {
         this.resetOptions()
         this.dom.optionSelector()?.disable()
-        this.dom.preview()?.hide()
+        this.dom.preview()?.display(false)
         const input = this.inputInfo(element)
-        if (input == null) { return; }
+        if (input == null) {
+            this.hintRepository("Fill textfiled using format {owner}/{repo}")
+            return;
+        }
 
         Promise.all([
             this.client.tags(input.owner, input.repo),
@@ -32,10 +35,14 @@ export class NefPlaygrounds {
             const tags = reqs[0]
             const branches = reqs[1]
             this.updateOptions({tags: tags, branches: branches})
+            this.resetHints()
 
             if (tags.length > 0 || branches.length > 0) {
                 this.dom.optionSelector()?.enable()
             }
+        })
+        .catch(reason => {
+            this.hintRepository(`Could not read repository 'https://github.com/${input.owner}/${input.repo}'`)
         })
     }
 
@@ -43,7 +50,7 @@ export class NefPlaygrounds {
         const source = this.source
         if (source == null) return;
 
-        this.dom.preview()?.hide()
+        this.dom.preview()?.display(false)
         this.resetOptions()
         this.updateOptions(source)
     }
@@ -57,17 +64,19 @@ export class NefPlaygrounds {
         const option = selectedTag ? selectedTag : selectedBranch
         
         if (source == null || info == null || option == undefined) {
-            this.dom.preview()?.hide()
+            this.dom.preview()?.display(false)
+            this.hintOptions("Must select an option")
             return;
         }
 
         this.client.repositoryInfo(info.owner, info.repo).then(repository => {
             this.resetCopyButton()
-            this.dom.preview()?.show()
+            this.resetHints()
+            this.dom.preview()?.display(true)
             this.updatePreview(repository, option, info.owner, info.repo)
         }).catch(reason => {
-            this.dom.preview()?.hide()
-            console.log(reason)
+            this.dom.preview()?.display(false)
+            this.internalError(`Could not read repository 'https://github.com/${info.owner}/${info.repo}'`)
         })
     }
 
@@ -144,5 +153,28 @@ export class NefPlaygrounds {
 
     private badge(title: string): string {
         return `<img src="https://raw.githubusercontent.com/bow-swift/bow-art/master/badges/nef-playgrounds-badge.svg" alt="${title} Playground" style="height:20px">`
+    }
+
+    // errors
+    private internalError(info: string) {
+        console.error(info)
+    }
+
+    private resetHints() {
+        this.dom.repositoryFeedback()?.hide()
+        this.dom.optionFeedback()?.hide()
+    }
+
+    private hintRepository(warning: string) {
+        console.warn(warning)
+        this.dom.setRepositoryFeedback(warning)
+        console.log(this.dom.repositoryFeedback())
+        this.dom.repositoryFeedback()?.show()
+    }
+
+    private hintOptions(warning: string) {
+        console.warn(warning)
+        this.dom.setOptionFeedback(warning)
+        this.dom.optionFeedback()?.show()
     }
 }

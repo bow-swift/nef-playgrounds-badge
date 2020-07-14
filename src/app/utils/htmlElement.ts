@@ -2,6 +2,7 @@ declare global {
     interface HTMLElement {
       disable(): void
       enable(): void
+      display(status: boolean): void
       hide(): void
       show(): void
       removeChildren(): void
@@ -20,12 +21,20 @@ declare global {
     this.removeAttribute("disabled")
   }
   
+  HTMLElement.prototype.display = function(status: boolean): void {
+    if (status) {
+      this.style.removeProperty("display")
+    } else {
+      this.style.setProperty("display", "none")
+    }
+  }
+
   HTMLElement.prototype.hide = function(): void {
-    this.style.setProperty("display", "none")
+    this.classList.remove("d-block")
   }
   
   HTMLElement.prototype.show = function(): void {
-    this.style.removeProperty("display")
+    this.classList.add("d-block")
   }
   
   HTMLElement.prototype.removeChildren = function(): void {

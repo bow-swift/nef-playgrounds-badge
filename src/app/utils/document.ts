@@ -9,6 +9,10 @@ export class NefDocument {
         return document.getElementById("repository") as HTMLInputElement
     }
 
+    repositoryFeedback(): (HTMLDivElement | null) {
+        return document.getElementById("repository-feedback") as HTMLDivElement
+    }
+
     optionSelector(): (HTMLOptionElement | null) {
         return document.getElementById("select-option") as HTMLOptionElement
     }
@@ -19,6 +23,10 @@ export class NefDocument {
 
     branchOption(): (HTMLLabelElement | null) {
         return document.getElementById("branch-option") as HTMLLabelElement
+    }
+
+    optionFeedback(): (HTMLDivElement | null) {
+        return document.getElementById("option-feedback") as HTMLDivElement
     }
 
     preview(): (HTMLDivElement | null) {
@@ -64,6 +72,14 @@ export class NefDocument {
 
     setCopyValue(value: string) {
         (document.getElementById("copy-value") as HTMLSpanElement).textContent = value
+    }
+
+    setRepositoryFeedback(value: string) {
+        (document.getElementById("repository-feedback") as HTMLElement).textContent = value
+    }
+
+    setOptionFeedback(value: string) {
+        (document.getElementById("option-feedback") as HTMLElement).textContent = value
     }
 
     copySelection() {
