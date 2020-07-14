@@ -17,24 +17,31 @@ export class GitHubAPI {
     }
 
     public async repositoryInfo(owner: string, repo: string): Promise<GitHubRepository> {
-        return this.httpClient.request({
+        return this.httpClient.request<any>({
             path: `/repos/${owner}/${repo}`,
             method: 'GET',
         }).then(response => {
-            const ownerSection = response.data.get("owner")
-            const name = response.data.get("name")
-            const description = response.data.get("description").trim()
+            const ownerSection = response.data.owner
+            const name = response.data.name
+            const description = response.data.description
+
+            if (ownerSection == undefined || name == undefined || description == undefined) {
+                throw new Error(`invalid repository response: ${response.data}`) 
+            }
+
             const login = ownerSection.login
             const avatar = ownerSection.avatar_url
-            if (ownerSection == undefined || name == undefined || description == undefined ||
-                login == null || avatar == null) { throw new Error(`invalid repository response: ${response}`) }
 
-            return new GitHubRepository(name, login, new URL(avatar), description)
+            if (login == undefined || avatar == undefined) { 
+                throw new Error(`invalid repository owner response: ${response.data}`) 
+            }
+
+            return new GitHubRepository(name, login, new URL(avatar), description.trim())
         })
     }
 
     private async focusName(path: string): Promise<[string]> {
-        return this.httpClient.request({
+        return this.httpClient.request<Map<string, any>>({
             path: path,
             method: 'GET',
         }).then(response => {

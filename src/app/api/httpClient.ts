@@ -1,7 +1,9 @@
 import { request, RequestOptions, IncomingMessage, IncomingHttpHeaders } from 'http';
+import { stringify } from 'querystring';
+import { Console } from 'console';
 
-export interface Response {
-    data: Map<string, any>,
+export interface Response<T> {
+    data: T,
     headers: IncomingHttpHeaders
 }
 
@@ -12,45 +14,32 @@ export class HTTPClient {
         this.host = host
     }
 
-    request(options: RequestOptions): Promise<Response> {
-        return new Promise<Response>((resolve, reject) => {
+    request<T>(options: RequestOptions): Promise<Response<T>> {
+        return new Promise<Response<T>>((resolve, reject) => {
             options.host = this.host
             request(
                 options,
-                function (response: IncomingMessage) {
-                    const { statusCode, headers } = response;
-                    const chunks: any[] = [];
-
+                (response: IncomingMessage) => {
+                    const { statusCode, headers } = response
+                    const chunks: any[] = []
                     if (statusCode == null || statusCode >= 300) {
                         reject(new Error(response.statusMessage))
                     }
 
                     response.on('data', (chunk: any) => {
                         chunks.push(chunk);
-                    });
+                    })
+
                     response.on('end', () => {
-                        const data: string = Buffer.concat(chunks).toString();
-                        const result: Response = {
-                            data: objectToMap(JSON.parse(data)),
+                        const data: string = Buffer.concat(chunks).toString()
+                        const result: Response<T> = {
+                            data: JSON.parse(data),
                             headers: headers,
-                        };
-                        resolve(result);
-                    });
+                        }
+                        resolve(result)
+                    })
                 }
-            ).end();
+            ).end()
         })
     }
-}
-
-
-// MARK: Utils
-
-function objectToMap(obj: any): Map<string, any> {
-    let map = new Map<string, any>();
-    for (let key in obj) {
-        let val = obj[key];
-        map.set(key, val);
-    }
-
-    return map
 }
