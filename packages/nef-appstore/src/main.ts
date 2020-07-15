@@ -5,7 +5,9 @@ import 'nef-common'
 function initPage() {
   const dom = new CTADocument(document)
   const component = new NefCTA(dom)
-  component.onStart()
+  const urlParams = new URLSearchParams(window.location.search)
+  
+  component.onStart(urlParams)
 }
 
 initPage()
