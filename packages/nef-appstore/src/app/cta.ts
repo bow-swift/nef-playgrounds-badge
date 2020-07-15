@@ -42,8 +42,8 @@ export class NefCTA {
     }
 
     private setInformationSection(info: RepositoryInfo) {
-        this.dom.setLibTitle(info.name)
-        this.dom.setLibOwner(info.owner)
+        this.dom.setLibTitle(info.owner)
+        this.dom.setLibName(info.name)
         this.dom.setLibDescription(info.description)
         this.dom.setRequirement(info.requirement)
     }
