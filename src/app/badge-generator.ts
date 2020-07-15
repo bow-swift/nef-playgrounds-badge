@@ -3,7 +3,7 @@ import { GitHubAPI } from "./api/github"
 import { GitHubInput } from "./models/githubInput"
 import { GitHubRepo } from "./models/repository"
 import { removeNonASCII } from "./utils/string-format"
-import { Source, Tag, Branch } from "./api/Requirements"
+import { Tag, Branch, Source } from "./api/models/Requirements"
 import "./utils/htmlElement"
 
 export class NefPlaygrounds {
