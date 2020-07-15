@@ -1,6 +1,7 @@
-import { HTTPClient } from "./httpClient"
 import { GitHubRepo } from "../models/repository"
-import { Tag, Branch } from "./models/Requirements"
+import { Tag, Branch } from "./models/requirements"
+import { HTTPClient } from 'nef-common'
+import { HTTPResponse } from 'nef-common'
 
 export class GitHubAPI {
     httpClient = new HTTPClient("api.github.com")
@@ -26,7 +27,7 @@ export class GitHubAPI {
         return this.httpClient.request<[PropertyName]>({
             path: path,
             method: 'GET',
-        }).then(response => response.data.map(it => it.name))
+        }).then(response => response.data.map((it: PropertyName) => it.name))
     }
 }
 

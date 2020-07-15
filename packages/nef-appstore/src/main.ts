@@ -1,7 +1,7 @@
 import { GitHubAPI } from "./app/api/github"
 import { NefDocument } from "./app/utils/document"
 import { NefPlaygrounds } from "./app/badge-generator"
-import "./app/utils/htmlElement"
+import 'nef-common'
 
 function initPage() {
   const githubClient = new GitHubAPI()

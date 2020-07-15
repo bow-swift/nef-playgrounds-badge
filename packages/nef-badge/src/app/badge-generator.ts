@@ -2,9 +2,9 @@ import { NefDocument } from "./utils/document"
 import { GitHubAPI } from "./api/github"
 import { GitHubInput } from "./models/githubInput"
 import { GitHubRepo } from "./models/repository"
-import { removeNonASCII } from "./utils/string-format"
-import { Tag, Branch, Source } from "./api/models/Requirements"
-import "./utils/htmlElement"
+import { Source, Tag, Branch } from "./api/models/requirements"
+import { removeNonASCII } from 'nef-common'
+import 'nef-common'
 
 export class NefPlaygrounds {
     dom: NefDocument
@@ -42,7 +42,7 @@ export class NefPlaygrounds {
                 this.dom.optionSelector()?.enable()
             }
         })
-        .catch(reason => {
+        .catch(_ => {
             this.hintRepository(`Could not read repository 'https://github.com/${input.owner}/${input.repo}'`)
         })
     }
