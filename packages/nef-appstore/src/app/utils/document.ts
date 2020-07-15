@@ -7,12 +7,24 @@ export class CTADocument {
         this.document = document
     }
 
-    recipePreview(): (HTMLCollection | null) {
-        return document.getElementsByClassName("recipe-preview")
+    recipePreview(): HTMLElement[] {
+        const previews = document.getElementsByClassName("recipe-preview")
+
+        if (previews != null) {
+            return [].slice.call(previews)
+        } else {
+            return []
+        }
     }
 
-    notRecipePreview(): (HTMLCollection | null) {
-        return document.getElementsByClassName("recipe-preview-only")
+    notRecipePreview(): HTMLElement[] {
+        const previews = document.getElementsByClassName("basic-preview")
+
+        if (previews != null) {
+            return [].slice.call(previews)
+        } else {
+            return []
+        }
     }
 
     setLibLogo(url: URL) {
@@ -32,8 +44,7 @@ export class CTADocument {
     }
 
     setRequirement(requirement: Tag | Branch) {
-        const tag = (requirement.type == "tag") ? "Tag" : "Branch";
-        (document.getElementById("lib-branch-tag") as HTMLElement).textContent = tag;
+        (document.getElementById("lib-branch-tag") as HTMLElement).textContent = requirement.type == "tag" ? "Tag" : "Branch";
         (document.getElementById("lib-branch-tag-value") as HTMLElement).textContent = requirement.value;
     }
 }

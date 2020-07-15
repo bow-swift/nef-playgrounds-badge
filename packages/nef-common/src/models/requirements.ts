@@ -1,10 +1,10 @@
 export interface Tag {
-    type?: "tag"
+    type: "tag"
     value: string
 }
 
 export interface Branch {
-    type?: "branch"
+    type: "branch"
     value: string
 }
 
