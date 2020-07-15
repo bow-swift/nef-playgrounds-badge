@@ -7,12 +7,12 @@ export class GitHubAPI {
 
     public async tags(owner: string, repo: string): Promise<Tag[]> {
         const values = await this.focusName(`/repos/${owner}/${repo}/tags`)
-        return values.map(it => ({ value: it }))
+        return values.map(it => ({ type: "tag", value: it }))
     }
     
     public async branches(owner: string, repo: string): Promise<Branch[]> {
         const values = await this.focusName(`/repos/${owner}/${repo}/branches`)
-        return values.map(it => ({ value: it }))
+        return values.map(it => ({ type: "branch", value: it }))
     }
 
     public async repositoryInfo(owner: string, repo: string): Promise<GitHubRepo> {
