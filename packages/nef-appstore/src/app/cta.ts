@@ -23,11 +23,29 @@ export class NefCTA {
 
     // private methods
     private loadRepoPreview(info: RepositoryInfo) {
-
+        this.setRecipePreviewVisible(true)
+        this.setAvatar(info.avatar)
+        this.setInformationSection(info)
     }
 
     private loadBasicPreview() {
+        this.setRecipePreviewVisible(false)
+    }
 
+    private setRecipePreviewVisible(visible: boolean) {
+        this.dom.recipePreview()?.forEach(it => { it.display(visible) })
+        this.dom.notRecipePreview()?.forEach(it => { it.display(!visible) })
+    }
+
+    private setAvatar(avatar: URL) {
+        this.dom.setLibLogo(avatar)
+    }
+
+    private setInformationSection(info: RepositoryInfo) {
+        this.dom.setLibTitle(info.name)
+        this.dom.setLibOwner(info.owner)
+        this.dom.setLibDescription(info.description)
+        this.dom.setRequirement(info.requirement)
     }
 
     // mapper
@@ -38,8 +56,8 @@ export class NefCTA {
         const avatar = urlParams.get('avatar')
         const tagParam = urlParams.get('tag')
         const branchParam = urlParams.get('branch')
-        const tag: Tag | null = tagParam == null ? null : ({ value: tagParam })
-        const branch: Branch | null = branchParam == null ? null : ({ value: branchParam })
+        const tag: Tag | null = tagParam == null ? null : ({type: "tag", value: tagParam })
+        const branch: Branch | null = branchParam == null ? null : ({type: "branch", value: branchParam })
         const requirement = tag == null ? branch : tag
       
         if (name == null || description == null || owner == null || avatar == null || requirement== null) {

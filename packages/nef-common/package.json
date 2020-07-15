@@ -18,6 +18,10 @@
     "@types/node": "^14.0.14",
     "typescript": "^3.9.6"
   },
+  "scripts": {
+    "build": "npm run clean; tsc",
+    "clean": "rm -rf dist"
+  },
   "main": "src/main.ts",
   "types": "src/main.d.ts"
 }
