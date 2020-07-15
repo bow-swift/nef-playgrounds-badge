@@ -3,18 +3,18 @@ import { GitHubAPI } from "./api/github"
 import { GitHubInput } from "./models/githubInput"
 import { GitHubRepo } from "./models/repository"
 import { removeNonASCII } from "./utils/string-format"
-import { Source, Tag, Branch } from "./api/Requirements"
+import { Requirement } from "./api/models/Requirement"
 import "./utils/htmlElement"
 
 export class NefPlaygrounds {
     dom: NefDocument
     client: GitHubAPI
-    source: (Source | null)
+    requirements: Requirement[]
 
     constructor(dom: NefDocument, client: GitHubAPI) {
         this.dom = dom
         this.client = client
-        this.source = null
+        this.requirements = []
     }
 
     // handlers
@@ -28,17 +28,11 @@ export class NefPlaygrounds {
             return;
         }
 
-        Promise.all([
-            this.client.tags(input.owner, input.repo),
-            this.client.branches(input.owner, input.repo)
-        ])
-        .then(reqs => {
-            const tags = reqs[0]
-            const branches = reqs[1]
-            this.updateOptions({tags: tags, branches: branches})
+        this.client.requirements(input.owner, input.repo).then(reqs => {
+            this.updateOptions(reqs)
             this.resetHints()
 
-            if (tags.length > 0 || branches.length > 0) {
+            if (reqs.length > 0) {
                 this.dom.optionSelector()?.enable()
             }
         })
@@ -48,23 +42,21 @@ export class NefPlaygrounds {
     }
 
     public onSourceChanged(element: HTMLElement, event: Event) {
-        const source = this.source
-        if (source == null) return;
+        const requirements = this.requirements
+        if (requirements == null) return;
 
         this.dom.preview()?.display(false)
         this.resetOptions()
-        this.updateOptions(source)
+        this.updateOptions(requirements)
     }
 
     public onOptionSelected(element: HTMLOptionElement, event: Event) {
-        const source = this.source
+        const requirements = this.requirements
         const repositoryField = this.dom.repositoryField()
         const info = (repositoryField == null) ? null : this.inputInfo(repositoryField)
-        const selectedTag = source?.tags.filter(it => it.value == element.value)[0]
-        const selectedBranch = source?.branches.filter(it => it.value == element.value)[0]
-        const option = selectedTag ? selectedTag : selectedBranch
+        const option = requirements.filter(it => it.value == element.value)[0]
         
-        if (source == null || info == null || option == undefined) {
+        if (info == null || option == undefined) {
             this.dom.preview()?.display(false)
             this.hintOptions("Must select an option")
             return;
@@ -104,7 +96,7 @@ export class NefPlaygrounds {
     }
 
     private resetOptions() {
-        this.source = null
+        this.requirements = []
 
         const selector = this.dom.optionSelector()
         selector?.removeChildren()
@@ -115,22 +107,22 @@ export class NefPlaygrounds {
         selector?.append(option)
     }
 
-    private updateOptions(source: Source) {
-        this.source = source
-        if (source.tags.length < 0 && source.branches.length < 0) return;
+    private updateOptions(requirements: Requirement[]) {
+        this.requirements = requirements
+        if (requirements.length < 0) return;
 
         const selector = this.dom.optionSelector()
-        const options = this.dom.isTagSelected() ? source.tags.map(it => it.value) : source.branches.map(it => it.value)
+        const options = this.dom.isTagSelected() ? requirements.filter(it => it.type == "tag") : requirements.filter(it => it.type == "branch")
 
-        options.forEach((option: string) => {
+        options.forEach((option: Requirement) => {
             const element = document.createElement("option")
-            element.value = option
-            element.innerText = option
+            element.value = option.value
+            element.innerText = option.value
             selector?.append(element)
         })
     }
 
-    private updatePreview(info: GitHubRepo, option: Tag | Branch, owner: string, repo: string) {
+    private updatePreview(info: GitHubRepo, option: Requirement, owner: string, repo: string) {
         const deeplink = this.deeplink(info, option, owner, repo)
 
         this.dom.setTagBranchName(option.value)
@@ -141,7 +133,7 @@ export class NefPlaygrounds {
         this.dom.setTextArea(`<a href="${deeplink}">${this.badge(info.name)}</a>`)
     }
 
-    private deeplink(info: GitHubRepo, option: Tag | Branch, owner: string, repo: string): string {
+    private deeplink(info: GitHubRepo, option: Requirement, owner: string, repo: string): string {
         const avatarURL = info.owner.avatar_url
         const nameEscaped = escape(info.name)
         const ownerEscaped = escape(info.owner.login)
