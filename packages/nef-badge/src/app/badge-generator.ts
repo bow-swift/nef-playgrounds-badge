@@ -2,7 +2,7 @@ import { NefDocument } from "./utils/document"
 import { GitHubAPI } from "./api/github"
 import { GitHubInput } from "./models/githubInput"
 import { GitHubRepo } from "./models/repository"
-import { Source, Tag, Branch } from "./api/models/requirements"
+import { Source, Tag, Branch } from 'nef-common'
 import { removeNonASCII } from 'nef-common'
 import 'nef-common'
 

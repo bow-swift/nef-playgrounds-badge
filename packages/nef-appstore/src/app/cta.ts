@@ -1,7 +1,7 @@
 import { CTADocument } from "./utils/document"
 import 'nef-common'
 
-export class NefPlaygrounds {
+export class NefCTA {
     dom: CTADocument
 
     constructor(dom: CTADocument) {

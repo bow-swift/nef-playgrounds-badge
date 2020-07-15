@@ -1,4 +1,5 @@
 export { HTTPClient } from "./api/httpClient"
 export { HTTPResponse } from "./api/models/httpResponse"
+export { Tag, Branch, Source } from "./models/requirements"
 export { removeNonASCII } from "./utils/string-format"
 import "./utils/htmlElement"
