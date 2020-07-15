@@ -1,7 +1,6 @@
 import { GitHubRepo } from "../models/repository"
-import { Requirement } from "./models/requirements"
+import { Requirement } from 'nef-common'
 import { HTTPClient } from 'nef-common'
-import { HTTPResponse } from 'nef-common'
 
 export class GitHubAPI {
     httpClient = new HTTPClient("api.github.com")

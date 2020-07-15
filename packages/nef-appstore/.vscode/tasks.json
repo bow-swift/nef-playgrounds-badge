@@ -1,0 +1,13 @@
+{
+	"version": "1.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "Build",
+			"detail": "Build CTA page"
+		}
+	]
+}
