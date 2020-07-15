@@ -39,8 +39,8 @@ export class CTADocument {
         (document.getElementById("lib-description") as HTMLElement).textContent = value
     }
 
-    setLibOwner(value: string) {
-        (document.getElementById("lib-owner") as HTMLElement).textContent = value
+    setLibName(value: string) {
+        (document.getElementById("lib-name") as HTMLElement).textContent = value
     }
 
     setRequirement(requirement: Tag | Branch) {
