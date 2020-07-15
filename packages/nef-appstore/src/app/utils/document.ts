@@ -15,12 +15,20 @@ export class CTADocument {
         return document.getElementsByClassName("recipe-preview-only")
     }
 
+    setLibLogo(url: URL) {
+        (document.getElementById("lib-logo") as HTMLImageElement).src = url.toString()
+    }
+
     setLibTitle(value: string) {
         (document.getElementById("lib-title") as HTMLElement).textContent = value
     }
 
     setLibDescription(value: string) {
         (document.getElementById("lib-description") as HTMLElement).textContent = value
+    }
+
+    setLibOwner(value: string) {
+        (document.getElementById("lib-owner") as HTMLElement).textContent = value
     }
 
     setRequirement(requirement: Tag | Branch) {
