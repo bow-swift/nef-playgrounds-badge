@@ -8,7 +8,4 @@ export interface Branch {
     value: string
 }
 
-export interface Source {
-    tags: Tag[]
-    branches: Branch[]
-}
+export type Requirement = Tag | Branch
