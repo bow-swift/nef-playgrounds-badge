@@ -1,0 +1,21 @@
+name: Deploy site
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Generate microsite
+      run: make site
+    - name: Deploy microsite
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        personal_token: ${{ secrets.DEPLOY_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: ./site
