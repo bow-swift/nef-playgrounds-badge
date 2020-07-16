@@ -19,3 +19,5 @@ jobs:
         personal_token: ${{ secrets.DEPLOY_TOKEN }}
         publish_branch: gh-pages
         publish_dir: ./site
+        enable_jekyll: false
+        cname: badge.bow-swift.io

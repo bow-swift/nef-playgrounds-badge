@@ -3,11 +3,13 @@ TASKS := build clean
 
 .PHONY: all
 all:
+	rm -rf site
+	$(MAKE) clean
 	$(MAKE) build
 
 .PHONY: site
-site:
-	$(MAKE) all
+site: all
+	mkdir site
 	cp -r packages/nef-badge/dist/* site
 	cp -r packages/nef-appstore/dist site/recipe
 
