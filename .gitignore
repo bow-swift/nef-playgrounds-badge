@@ -7,3 +7,10 @@ dist
 ## Node
 node_modules
 /badge/node_modules
+
+## microsite
+site/*.js
+site/*.ts
+site/*.html
+site/*.css
+site/recipe
