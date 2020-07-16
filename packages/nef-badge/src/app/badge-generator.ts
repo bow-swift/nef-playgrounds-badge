@@ -148,7 +148,7 @@ export class NefPlaygrounds {
         const descriptionEscaped = escape(removeNonASCII(info.description).trim())
         const source = option.type == "tag" ? "tag" : "branch"
 
-        const deeplink = `https://nef.bow-swift.io/recipe?name=${nameEscaped}&description=${descriptionEscaped}&url=https://github.com/${owner}/${repo}&owner=${ownerEscaped}&avatar=${avatarURL}`
+        const deeplink = `https://badge.bow-swift.io/recipe?name=${nameEscaped}&description=${descriptionEscaped}&url=https://github.com/${owner}/${repo}&owner=${ownerEscaped}&avatar=${avatarURL}`
         return `${deeplink}&${source}=${option.value}`
     }
 
