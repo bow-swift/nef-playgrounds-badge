@@ -84,7 +84,7 @@ export class NefPlaygrounds {
     private inputInfo(element: HTMLInputElement): (GitHubInput | null) {
         const elements = element.value.replace(".git", "").split("/")
         if (elements.length != 2) { return null; }
-        return new GitHubInput(elements[0], elements[1])
+        return ({owner: elements[0], repo: elements[1]})
     }
 
     private resetCopyButton() {
@@ -112,7 +112,7 @@ export class NefPlaygrounds {
         if (requirements.length < 0) return;
 
         const selector = this.dom.optionSelector()
-        const options = this.dom.isTagSelected() ? requirements.filter(it => it.type == "tag") : requirements.filter(it => it.type == "branch")
+        const options = this.dom.isTagSelected() ? requirements.filter(it => it.type == "tag") : requirements.filter(it => it.type != "tag")
 
         options.forEach((option: Requirement) => {
             const element = document.createElement("option")
