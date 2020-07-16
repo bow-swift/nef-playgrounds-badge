@@ -1,0 +1,32 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#site-header {
+  padding-top: 18px;
+}
+
+#site-libray-info {
+  padding-bottom: 24px;
+}
+
+.app-card {
+  height: 200px;
+  width: 200px;
+  border-radius: 44px;
+}
+
+.title {
+  padding-bottom: 20px;
+  width: max-content;
+}
+
+.font-info {
+  font-size: 0.85em;
+}
+
+.appstore-button {
+  box-sizing: border-box;
+  width: 150px;
+}
