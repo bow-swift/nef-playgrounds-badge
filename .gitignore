@@ -9,4 +9,11 @@ node_modules
 /badge/node_modules
 
 ## microsite
-site
+site/**/*.ts
+site/**/*.js
+site/**/*.css
+site/**/*.html
+site/**/*.svg
+site/**/*.png
+site/**/*.jpg
+site/**/*.jpeg
