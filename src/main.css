@@ -1,0 +1,34 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.selector-for-some-widget {
+  box-sizing: content-box;
+}
+
+.mycontent-bottom {
+  margin-top: 10px;
+}
+
+.mycontent-right {
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.cloud-tag {
+  min-width: 64px;
+  width: max-content;
+  padding: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.textarea-container {
+  position: relative;
+}
+.textarea-container button {
+  position: absolute;
+  top: 40px;
+  right: 8px;
+}
