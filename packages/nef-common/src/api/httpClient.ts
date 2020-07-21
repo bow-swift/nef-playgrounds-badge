@@ -1,11 +1,5 @@
-import { request, RequestOptions, IncomingMessage, IncomingHttpHeaders } from 'http';
-import { stringify } from 'querystring';
-import { Console } from 'console';
-
-export interface Response<T> {
-    data: T,
-    headers: IncomingHttpHeaders
-}
+import { request, RequestOptions, IncomingMessage } from 'http'
+import { HTTPResponse } from './models/httpResponse'
 
 export class HTTPClient {
     host: string
@@ -14,8 +8,8 @@ export class HTTPClient {
         this.host = host
     }
 
-    request<T>(options: RequestOptions): Promise<Response<T>> {
-        return new Promise<Response<T>>((resolve, reject) => {
+    request<T>(options: RequestOptions): Promise<HTTPResponse<T>> {
+        return new Promise<HTTPResponse<T>>((resolve, reject) => {
             options.host = this.host
             request(
                 options,
@@ -32,7 +26,7 @@ export class HTTPClient {
 
                     response.on('end', () => {
                         const data: string = Buffer.concat(chunks).toString()
-                        const result: Response<T> = {
+                        const result: HTTPResponse<T> = {
                             data: JSON.parse(data),
                             headers: headers,
                         }

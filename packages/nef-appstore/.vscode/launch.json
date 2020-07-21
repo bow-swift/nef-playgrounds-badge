@@ -1,8 +1,8 @@
 {
-    "version": "0.2.0",
+    "version": "1.0.0",
     "configurations": [
         {
-            "name": "Launch badge generator",
+            "name": "Launch CTA page",
             "type": "chrome",
             "request": "launch",
             "file": "${workspaceFolder}/dist/index.html"

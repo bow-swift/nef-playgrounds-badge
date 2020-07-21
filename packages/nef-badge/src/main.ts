@@ -1,7 +1,7 @@
 import { GitHubAPI } from "./app/api/github"
 import { NefDocument } from "./app/utils/document"
 import { NefPlaygrounds } from "./app/badge-generator"
-import "./app/utils/htmlElement"
+import 'nef-common'
 
 function initPage() {
   const githubClient = new GitHubAPI()
@@ -21,7 +21,7 @@ function addEventListeners(component: NefPlaygrounds, dom: NefDocument) {
   const branchOption = dom.branchOption()
   const copyButton = dom.copyButton()
 
-  field?.addEnterKeyListener((element, event) => component.onRepositoryChanged(field, event))
+  field?.addEnterKeyListener((_, event) => component.onRepositoryChanged(field, event))
   field?.addEventListener("change", (event: Event) => component.onRepositoryChanged(field, event))
   selector?.addEventListener("change", (event: Event) => component.onOptionSelected(selector, event))
   tagOption?.addEventListener("click", (event: Event) => component.onSourceChanged(tagOption, event))

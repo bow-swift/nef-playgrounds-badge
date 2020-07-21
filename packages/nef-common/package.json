@@ -1,0 +1,27 @@
+{
+  "name": "nef-common",
+  "version": "1.0.0",
+  "description": "CTA download nef Playgrounds from App Store",
+  "author": "nef",
+  "license": "MIT",
+  "keywords": [
+    "nef",
+    "bow",
+    "Xcode Playground",
+    "nef Playground",
+    "Swift Playground",
+    "Playgrounds",
+    "iPad"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^14.0.14",
+    "typescript": "^3.9.6"
+  },
+  "scripts": {
+    "build": "npm run clean; tsc",
+    "clean": "rm -rf dist"
+  },
+  "main": "src/main.ts",
+  "types": "src/main.d.ts"
+}

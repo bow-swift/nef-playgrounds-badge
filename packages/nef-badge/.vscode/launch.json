@@ -1,0 +1,18 @@
+{
+    "version": "1.0.0",
+    "configurations": [
+        {
+            "name": "Launch badge generator",
+            "type": "chrome",
+            "request": "launch",
+            "file": "${workspaceFolder}/dist/index.html"
+        },
+        {
+            "name": "Build",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run build",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
