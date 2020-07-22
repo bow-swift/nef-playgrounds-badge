@@ -1,6 +1,7 @@
 body {
   padding: 0;
   margin: 0;
+  min-width: 360px;
 }
 
 #site-header {
@@ -11,10 +12,23 @@ body {
   padding-bottom: 24px;
 }
 
+.row.py-4.recipe-preview {
+  justify-content: center;
+}
+
 .app-card {
-  height: 200px;
-  width: 200px;
-  border-radius: 44px;
+  max-width: 280px;
+}
+
+.app-plus {
+  padding: 0px;
+  align-content: center;
+  align-self: center;
+}
+
+.content-app-card {
+  border-radius: 24%;    
+  width: 100%;
 }
 
 .title {
@@ -22,11 +36,20 @@ body {
   width: max-content;
 }
 
-.font-info {
-  font-size: 0.85em;
-}
-
 .appstore-button {
   box-sizing: border-box;
   width: 150px;
+}
+
+.font-info {
+  font-size: 0.85em;
+  padding-left: 50px;
+}
+
+.font-info > .col-2 {
+  padding-left: 0px;
+}
+
+.font-info > .col-10 {
+  padding-left: 0px;
 }
