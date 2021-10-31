@@ -20,7 +20,7 @@ You can create your own **nef badge** to let users try your project in their iPa
 <img src="https://raw.githubusercontent.com/bow-swift/bow-art/master/badges/nef-playgrounds-badge.svg" alt="nef badge" style="height:20px">
 </p>
 
-    Copyright (C) 2020 The nef Authors
+    Copyright (C) 2020-2021 The nef Authors
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
